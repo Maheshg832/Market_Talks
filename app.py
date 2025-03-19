@@ -2,6 +2,10 @@ from flask import Flask, request
 from signals import generate_signal
 from bot import send_message
 from apscheduler.schedulers.background import BackgroundScheduler
+import pytz
+
+scheduler = BackgroundScheduler(timezone=pytz.utc)
+
 
 app = Flask(__name__)
 
