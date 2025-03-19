@@ -6,14 +6,12 @@ import pytz
 
 scheduler = BackgroundScheduler(timezone=pytz.utc)
 
-
 app = Flask(__name__)
 
 def scheduled_signal_generation():
     signal = generate_signal()  
     send_message(f"New Signal: {signal}")
 
-scheduler = BackgroundScheduler()
 scheduler.add_job(scheduled_signal_generation, 'interval', minutes=1)  
 scheduler.start()
 
