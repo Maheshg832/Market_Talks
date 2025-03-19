@@ -4,15 +4,15 @@ from bot import send_message
 from apscheduler.schedulers.background import BackgroundScheduler
 import pytz
 
-scheduler = BackgroundScheduler(timezone=pytz.utc)
-
 app = Flask(__name__)
+
+scheduler = BackgroundScheduler(timezone=pytz.utc)
 
 def scheduled_signal_generation():
     signal = generate_signal()  
     send_message(f"New Signal: {signal}")
 
-scheduler.add_job(scheduled_signal_generation, 'interval', minutes=1)  
+scheduler.add_job(scheduled_signal_generation, 'interval', minutes=1)
 scheduler.start()
 
 @app.route('/')
@@ -26,4 +26,5 @@ def generate_and_send_signal():
     return {"status": "success", "signal": signal}, 200
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    from waitress import serve  
+    serve(app, host="0.0.0.0", port=5000)
